@@ -27,10 +27,8 @@ def brainCoral(context, radius, fringes):
     counter = 1
 
     for vert in current_mesh.vertices:  
-        
         if vert.co.z < vert.co.z / 2:
             vert.co.z = - radius / 2
-        
         counter += 1
             
     bpy.ops.object.editmode_toggle()
@@ -129,7 +127,6 @@ def brainCoral(context, radius, fringes):
     colorGreen = (0, 0.5, 0, 1)
 
     princ2.inputs[0].default_value = colorYellow
-
 
     bpy.ops.object.modifier_add(type='SUBSURF')
     bpy.context.object.modifiers["Subdivision"].levels = 3
@@ -341,14 +338,6 @@ def tableCoral(context):
     cRamp.color_ramp.elements[1].position = 0.461
 
     material.inputs[2].default_value = cTexture
-    #coral1.values()
-
-    #bpy.data.node_groups['Coral1_GeoNodes'].nodes
-    #coral_output.output[0] = none
-
-    #coral_base.inputs.new()
-    #coral_base.inputs[0] = combine.outputs[0]
-    #combine.inputs[0] = coral_base.outputs[0]
 
     bpy.data.node_groups['Coral1_GeoNodes'].links.new(coral_base.outputs[0], transform_coral1_base.inputs[0])
     bpy.data.node_groups['Coral1_GeoNodes'].links.new(transform_coral1_base.outputs[0], cbasecut.inputs[0])
@@ -385,40 +374,6 @@ def tableCoral(context):
     bpy.data.node_groups['Coral1_GeoNodes'].links.new(cbaseslim2.outputs[0], cbase2cut.inputs[1])
     bpy.data.node_groups['Coral1_GeoNodes'].links.new(cbase2cut.outputs[0], transform_coral2.inputs[0])
     bpy.data.node_groups['Coral1_GeoNodes'].links.new(transform_coral2.outputs[0], combine.inputs[0])
-
-    #bpy.context.object.color = object_color
-    #nodes["Join Geometry"].inputs[0].default_value = object_color 
-
-    #cone1 = coral_nodes.node.new(type="GeometryMeshNodeCone")
-    #cone1.node_group = bpy.data.node_groups['Coral1_GeoNodes']
-
-    #coral_nodes.node_group = bpy.data.node_groups['CoralNodes']
-
-    #bpy.ops.object.modifier_add(type='NODES')
-    #bpy.ops.node.new_geometry_node_group_assign()
-    #bpy.data.node_groups["Geometry Nodes.001"].name = "Coral1"
-    #gnode = bpy.data.node_groups["Coral1"]
-
-    #cone_base = bpy.ops.node.add_node(type="GeometryMeshNodeCone")
-
-    #gnode.node_tree.nodes.new("Join Geometry")
-
-    join = bpy.data
-
-
-    coral1_mesh = bpy.data.meshes.new("coral1_mesh")
-    coral1_object = bpy.data.objects.new("coral1_object", coral1_mesh)
-
-
-    bpy.context.collection.objects.link(coral1_object)
-    bpy.ops.transform.rotate(value = 0.1)
-
-    bm = bmesh.new()
-    bm.from_mesh(coral1_mesh)
-    
-
-    bm.to_mesh(coral1_mesh)
-    bm.free()
 
 def antlerCoral(context):
     #Delete Default Objects
@@ -655,8 +610,7 @@ class simpleAntlerCoral(bpy.types.Operator):
     def execute(self, context):
         antlerCoral(context)
         return {'FINISHED'}
-
-    
+   
 class CoralPanel(bpy.types.Panel):
     """Creates a Panel in the Object properties window"""
     bl_label = "Coral Panel"
@@ -684,7 +638,6 @@ class CoralPanel(bpy.types.Panel):
         row = layout.row(align=True)
         row.prop(simpleBrainCoral.radius, text="Customize Radius")
 
-
 _classes = [
     simpleBrainCoral,
     simpleTableCoral,
@@ -701,7 +654,6 @@ def register():
 def unregister():
     for cls in _classes:
         bpy.utils.unregister_class(cls)
-
 
 if __name__ == "__main__":
     register()

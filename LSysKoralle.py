@@ -141,7 +141,9 @@ bpy.data.node_groups['LSysCoral_GeoNodes'].links.new(points.outputs[0], rot_bran
 bpy.data.node_groups['LSysCoral_GeoNodes'].links.new(tangent.outputs[0], rot_to_vektor.inputs[2])
 bpy.data.node_groups['LSysCoral_GeoNodes'].links.new(branch_rotation.outputs[0], rot_to_vektor.inputs[0])
 bpy.data.node_groups['LSysCoral_GeoNodes'].links.new(rot_to_vektor.outputs[0], points.inputs[5])
-rot_branches.inputs[2].default_value[1] = radians(69)
+rot_branches.inputs[2].default_value[0] = radians(36)
+rot_branches.inputs[2].default_value[1] = radians(135)
+rot_branches.inputs[2].default_value[2] = radians(21)
 
 bc2m = bpy.data.node_groups['LSysCoral_GeoNodes'].nodes.new('GeometryNodeCurveToMesh')
 bcircle = bpy.data.node_groups['LSysCoral_GeoNodes'].nodes.new('GeometryNodeCurvePrimitiveCircle')
@@ -235,3 +237,6 @@ bpy.data.node_groups['LSysCoral_GeoNodes'].links.new(Input4.outputs[4], slim.inp
 bpy.data.node_groups['LSysCoral_GeoNodes'].inputs[2].name = "Max Size"
 bpy.data.node_groups['LSysCoral_GeoNodes'].inputs[3].name = "Growth"
 bpy.data.node_groups['LSysCoral_GeoNodes'].inputs[4].name = "Radius"
+
+bpy.data.node_groups['LSysCoral_GeoNodes'].links.new(Input4.outputs[5], pattern.inputs[5])
+bpy.data.node_groups['LSysCoral_GeoNodes'].links.new(Input4.outputs[5], pattern2.inputs[5])

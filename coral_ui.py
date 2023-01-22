@@ -1,5 +1,6 @@
 import bpy
 import bmesh
+from bpy.types import (Panel, Operator)
 import math
 import random
 
@@ -8,18 +9,13 @@ bl_info = {
     "author": "Denny Lang, Leon Herrmann",
     "version": (1, 0),
     "blender": (3, 3, 1),
-    "location": "View3D > Add > Mesh > Add Coral",
+    "location": "View3D > N",
     "description": "An addon to create different types of corals",
     "category": "Add Mesh",
     "support": "TESTING",
 }
 
-class Params:
-    """Parameters for the Coral"""
-    RADIUS = 40
-    FRINGES = 50
-
-def brainCoral(radius, fringes): 
+def brainCoral(context, radius, fringes): 
     bpy.ops.object.select_all(action='SELECT')
     bpy.ops.object.delete(use_global=False, confirm=False)
     bpy.ops.outliner.orphans_purge()
@@ -134,12 +130,11 @@ def brainCoral(radius, fringes):
     current_mesh.update()
 
 
-
-
-class simpleBrainCoral():
-    #TODO MAIN
+class simpleBrainCoral(bpy.types.Operator):
+    # MAIN
     bl_idname = "object.simple_brain_coral"
     bl_label = "Simple Brain Coral"
+    bl_options = {"REGISTER", "UNDO"}
 
     radius: bpy.props.IntProperty(
         name="Radius",
@@ -151,29 +146,50 @@ class simpleBrainCoral():
         description="fringes of the coral",
         default = 20)
 
-    @classmethod
-    def poll(cls, context):
-        return context.active_object is not None
-
-    def execute(self, radius, fringes):
-        brainCoral(radius, fringes)
+    def execute(self, context):
+        brainCoral(context, self.radius, self.fringes)
         return {'FINISHED'}
 
     
+class CoralPanel(bpy.types.Panel):
+    """Creates a Panel in the Object properties window"""
+    bl_label = "Coral Panel"
+    bl_idname = "OBJECT_PT_coral"
+    bl_space_type = 'VIEW_3D'
+    bl_region_type = 'UI'
+    bl_category = "Brain Coral"
 
-    
-def addMenu(self, context):
-    self.layout.operator(simpleBrainCoral.bl_idname,
-                         text="Add Brain Coral")
-    
+    def draw(self, context):
+        layout = self.layout
+        obj = context.object
+        row = layout.row()
+        row.operator(simpleBrainCoral.bl_idname, text="Coral Generate", icon="SPHERE")
+
+        layout.label(text=" Fringes:")
+        row = layout.row(align=True)
+        row.prop(simpleBrainCoral.fringes, text="Customize Fringes")
+        layout.label(text="Radius:")
+        row = layout.row(align=True)
+        row.prop(simpleBrainCoral.radius, text="Customize Radius")
+
+
+
+
+_classes = [
+    simpleBrainCoral,
+    CoralPanel
+]
+
 #register, unregister = bpy.utils.register_classes_factory(classes)
-def register():
-    bpy.utils.register_class(Params)
-    bpy.utils.register_class(simpleBrainCoral)
-    bpy.types.VIEW3D_MT_mesh_add.append(addMenu)
 
+def register():
+    for cls in _classes:
+        bpy.utils.register_class(cls)
 
 def unregister():
-    bpy.utils.unregister_class(Params)
-    bpy.utils.unregister_class(simpleBrainCoral)
-    bpy.types.VIEW3D_MT_mesh_add.remove(addMenu)
+    for cls in _classes:
+        bpy.utils.unregister_class(cls)
+
+
+if __name__ == "__main__":
+    register()

@@ -21,7 +21,7 @@ coral_nodes = coral1.modifiers.new("CoralNodes","NODES")
 
 
 bpy.ops.node.new_geometry_node_group_assign()
-bpy.data.node_groups["Geometry Nodes.001"].name = "Coral1_GeoNodes"
+bpy.data.node_groups["Geometry Nodes"].name = "Coral1_GeoNodes"
 
 coral_nodes.node_group = bpy.data.node_groups['Coral1_GeoNodes']
 

@@ -240,3 +240,7 @@ bpy.data.node_groups['LSysCoral_GeoNodes'].inputs[4].name = "Radius"
 
 bpy.data.node_groups['LSysCoral_GeoNodes'].links.new(Input4.outputs[5], pattern.inputs[5])
 bpy.data.node_groups['LSysCoral_GeoNodes'].links.new(Input4.outputs[5], pattern2.inputs[5])
+pattern.inputs[3].default_value = 12
+pattern2.inputs[3].default_value = 12
+pattern.inputs[4].default_value = 1
+pattern2.inputs[4].default_value = 1

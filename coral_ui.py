@@ -88,7 +88,7 @@ def brainCoral(context, radius, fringes):
     #Texture Default wertes
     mapping.inputs[3].default_value = (0.1, 0.1, 0.1)
     if radius < 10:
-        texMus.inputs[1].default_value = 12 # größe des Musters
+        texMus.inputs[1].default_value = 14 # größe des Musters
     elif radius > 50:
         texMus.inputs[1].default_value = 2 # größe des Musters
     else:
@@ -127,6 +127,8 @@ def brainCoral(context, radius, fringes):
     colorGreen = (0, 0.5, 0, 1)
 
     princ2.inputs[0].default_value = colorYellow
+
+    bpy.context.active_object.data.materials.append(brainTexture)
 
     bpy.ops.object.modifier_add(type='SUBSURF')
     bpy.context.object.modifiers["Subdivision"].levels = 3
@@ -580,7 +582,7 @@ class simpleBrainCoral(bpy.types.Operator):
     radius: bpy.props.IntProperty(
         name="Radius",
         description="radius of the coral",
-        default = 5)
+        default = 20)
     
     fringes: bpy.props.IntProperty(
         name="Fringes",
@@ -631,12 +633,11 @@ class CoralPanel(bpy.types.Panel):
         row = layout.row()
         row.operator(simpleAntlerCoral.bl_idname, text="Antler Coral Generate", icon="SPHERE")
 
-        layout.label(text=" Fringes:")
-        row = layout.row(align=True)
-        row.prop(simpleBrainCoral.fringes, text="Customize Fringes")
-        layout.label(text="Radius:")
-        row = layout.row(align=True)
-        row.prop(simpleBrainCoral.radius, text="Customize Radius")
+        # Customize Properties of Brain Coral 
+        # row = layout.row()
+        # row.prop(simpleBrainCoral.bl_idname, 'radius')
+        # row.prop(simpleBrainCoral.bl_idname, 'fringes',)
+        
 
 _classes = [
     simpleBrainCoral,

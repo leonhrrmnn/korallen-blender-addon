@@ -573,7 +573,7 @@ def antlerCoral(context):
 
     Texture.inputs[2].default_value = cTexture
 
-class simpleBrainCoral(bpy.types.Operator):
+class SimpleBrainCoral(bpy.types.Operator):
     # MAIN
     bl_idname = "object.simple_brain_coral"
     bl_label = "Simple Brain Coral"
@@ -593,7 +593,7 @@ class simpleBrainCoral(bpy.types.Operator):
         brainCoral(context, self.radius, self.fringes)
         return {'FINISHED'}
 
-class simpleTableCoral(bpy.types.Operator):
+class SimpleTableCoral(bpy.types.Operator):
     # MAIN
     bl_idname = "object.simple_table_coral"
     bl_label = "Simple Table Coral"
@@ -603,7 +603,7 @@ class simpleTableCoral(bpy.types.Operator):
         tableCoral(context)
         return {'FINISHED'}
 
-class simpleAntlerCoral(bpy.types.Operator):
+class SimpleAntlerCoral(bpy.types.Operator):
     # MAIN
     bl_idname = "object.simple_antler_coral"
     bl_label = "Simple Antler Coral"
@@ -624,25 +624,26 @@ class CoralPanel(bpy.types.Panel):
     def draw(self, context):
         layout = self.layout
         obj = context.object
+        scene = context.scene
         row = layout.row()
-        row.operator(simpleBrainCoral.bl_idname, text="Brain Coral Generate", icon="SPHERE")
+        row.operator(SimpleBrainCoral.bl_idname, text="Brain Coral Generate", icon="SPHERE")
 
         row = layout.row()
-        row.operator(simpleTableCoral.bl_idname, text="Table Coral Generate", icon="SPHERE")
+        row.operator(SimpleTableCoral.bl_idname, text="Table Coral Generate", icon="SPHERE")
 
         row = layout.row()
-        row.operator(simpleAntlerCoral.bl_idname, text="Antler Coral Generate", icon="SPHERE")
+        row.operator(SimpleAntlerCoral.bl_idname, text="Antler Coral Generate", icon="SPHERE")
 
         # Customize Properties of Brain Coral 
         # row = layout.row()
-        # row.prop(simpleBrainCoral.bl_idname, 'radius')
-        # row.prop(simpleBrainCoral.bl_idname, 'fringes',)
+        # layout.prop(scene, 'radius')
+        # layout.prop(scene, 'fringes')
         
 
 _classes = [
-    simpleBrainCoral,
-    simpleTableCoral,
-    simpleAntlerCoral,
+    SimpleBrainCoral,
+    SimpleTableCoral,
+    SimpleAntlerCoral,
     CoralPanel
 ]
 
